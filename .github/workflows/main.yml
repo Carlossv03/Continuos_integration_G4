@@ -47,3 +47,12 @@ jobs:
           else
             echo "No Python files found, skipping pylint."
           fi
+
+      - name: Run Pytest
+        run: |
+          py_files=$(git ls-files '*.py')
+          if [ -n "$py_files" ]; then
+            pytest
+          else
+            echo "No Python files found, skipping pytest."
+          fi
