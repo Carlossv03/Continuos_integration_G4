@@ -1,7 +1,7 @@
-name: Lint on Pull Request
+name: Lint on Push Request
 
 on:
-  pull_request:
+  push: 
     branches:
       - main
 
@@ -12,29 +12,24 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      # Node.js + ESLint
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-
-      - name: Install Node.js dependencies
-        run: npm install
-
-      - name: Run ESLint
-        run: |
-          if [ -f .eslintrc.js ] || [ -f .eslintrc.json ]; then
-            npx eslint .
-          else
-            echo "No ESLint config found, skipping ESLint."
-          fi
-
+        
       # Python + Pylint
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
+          
+      - name: install Pytest
+        run: pip install pytest
+        
+      - name: Run Pytest
+        run: |
+          py_files=$(git ls-files '*.py')
+          if [ -n "$py_files" ]; then
+            pytest
+          else
+            echo "No Python files found, skipping pytest."
+          fi
 
       - name: Install pylint
         run: pip install pylint
@@ -46,13 +41,4 @@ jobs:
             pylint $py_files
           else
             echo "No Python files found, skipping pylint."
-          fi
-
-      - name: Run Pytest
-        run: |
-          py_files=$(git ls-files '*.py')
-          if [ -n "$py_files" ]; then
-            pytest
-          else
-            echo "No Python files found, skipping pytest."
           fi
