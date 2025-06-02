@@ -1,3 +1,4 @@
+import pytest
 from models.membership import Membership
 from models.feature import Feature
 from models.user_selection import Selection

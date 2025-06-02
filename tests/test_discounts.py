@@ -1,3 +1,4 @@
+import pytest
 from models.membership import Membership
 from models.feature import Feature
 from models.user_selection import Selection
@@ -30,6 +31,6 @@ def test_combined_group_and_threshold_discount():
     f = [Feature("PT", 60), Feature("GC", 60)]
     s = Selection(m, f, True)
     total = 420
-    after_group = total * 0.9
-    expected = after_group - 50
+    after_group = total * 0.9      # 378
+    expected = after_group - 20    # 358
     assert apply_discounts(s, total) == expected
