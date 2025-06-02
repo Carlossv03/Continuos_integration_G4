@@ -19,6 +19,15 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Run Pytest
+        run: |
+          py_files=$(git ls-files '*.py')
+          if [ -n "$py_files" ]; then
+            pytest
+          else
+            echo "No Python files found, skipping pytest."
+          fi
+
       - name: Install pylint
         run: pip install pylint
 
@@ -29,13 +38,4 @@ jobs:
             pylint $py_files
           else
             echo "No Python files found, skipping pylint."
-          fi
-
-      - name: Run Pytest
-        run: |
-          py_files=$(git ls-files '*.py')
-          if [ -n "$py_files" ]; then
-            pytest
-          else
-            echo "No Python files found, skipping pytest."
           fi
