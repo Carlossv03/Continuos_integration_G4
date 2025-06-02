@@ -1,3 +1,4 @@
+"""Tests for calculator functionality."""
 import pytest
 from models.membership import Membership
 from models.feature import Feature

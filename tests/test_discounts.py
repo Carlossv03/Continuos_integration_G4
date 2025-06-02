@@ -1,4 +1,4 @@
-import pytest
+"""Tests for calculator functionality."""
 from models.membership import Membership
 from models.feature import Feature
 from models.user_selection import Selection
@@ -7,7 +7,7 @@ from services.discounts import apply_discounts
 def test_no_discounts_applied():
     """
     Test when no group or threshold discount applies.
-    """    
+    """
     m = Membership("Basic", 50)
     s = Selection(m, [], False)
     assert apply_discounts(s, 50) == 50

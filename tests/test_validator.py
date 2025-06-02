@@ -1,4 +1,4 @@
-import pytest
+"""Tests for calculator functionality."""
 from models.membership import Membership
 from models.feature import Feature
 from services.validator import validate_membership, validate_features
