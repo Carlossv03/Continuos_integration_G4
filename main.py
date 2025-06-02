@@ -1,19 +1,43 @@
-from utils.display import show_menu
-from services.validator import validate_membership, validate_features
+"""
+main.py
+
+Main module to run the Gym Membership Management System.
+Handles user interaction, validation, cost calculation, discount application,
+and confirmation of the membership selection.
+"""
+
+from models.user_selection import get_user_selection
 from services.calculator import calculate_total_cost
 from services.discounts import apply_discounts
-from models.user_selection import get_user_selection
+from services.validator import validate_membership, validate_features
+from utils.display import show_menu
 from utils.error_handler import handle_error
 
 def main():
+    """
+    Orchestrates the gym membership selection process.
+
+    Steps:
+    - Display membership menu.
+    - Get user selection.
+    - Validate membership and features.
+    - Calculate total cost with discounts.
+    - Display summary and ask for confirmation.
+    - Handle errors gracefully.
+
+    Returns:
+        None: Prints output to the console. Prints -1 on error or cancellation.
+    """
     try:
         show_menu()
         selection = get_user_selection()
         if not validate_membership(selection.membership):
-            return handle_error("Invalid membership selected.")
+            handle_error("Invalid membership selected.")
+            return
 
         if not validate_features(selection.membership, selection.features):
-            return handle_error("One or more features are invalid.")
+            handle_error("One or more features are invalid.")
+            return
 
         total = calculate_total_cost(selection)
         total_with_discounts = apply_discounts(selection, total)
@@ -29,8 +53,11 @@ def main():
         else:
             print("Membership cancelled.")
             print("-1")
-    except Exception as e:
+    except (ValueError, IndexError) as e:
         handle_error(str(e))
+    except Exception as e:
+        handle_error(f"Unexpected error: {str(e)}")
+        raise
 
 if __name__ == "__main__":
     main()
