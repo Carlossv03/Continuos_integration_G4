@@ -1,7 +1,7 @@
-name: Lint on Pull Request
+name: Lint on Push Request
 
 on:
-  pull_request:
+  push: 
     branches:
       - main
 
