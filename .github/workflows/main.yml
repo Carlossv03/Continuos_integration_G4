@@ -18,7 +18,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-
+          
+      - name: install Pytest
+        run: pip install pytest
+        
       - name: Run Pytest
         run: |
           py_files=$(git ls-files '*.py')
